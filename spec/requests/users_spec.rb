@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Users API', type: :request do
+RSpec.describe 'users API', type: :request do
   # initialize test data
   let!(:users) { create_list(:User, 10) }
   let(:user_id) { users.first.id }
@@ -52,13 +52,13 @@ RSpec.describe 'Users API', type: :request do
   # Test suite for POST /users
   describe 'POST /users' do
     # valid payload
-    let(:valid_attributes)
+    let(:valid_attributes) { { usuario: 'Learn Elm', nombre: 'lolo' } }
 
     context 'when the request is valid' do
       before { post '/users', params: valid_attributes }
 
       it 'creates a user' do
-        expect(json['usuario'])
+        expect(json['usuario']).to eq('Learn Elm')
       end
 
       it 'returns status code 201' do
@@ -82,7 +82,7 @@ RSpec.describe 'Users API', type: :request do
 
   # Test suite for PUT /users/:id
   describe 'PUT /users/:id' do
-    let(:valid_attributes)
+    let(:valid_attributes) { { usuario: 'Shopping' } }
 
     context 'when the record exists' do
       before { put "/users/#{user_id}", params: valid_attributes }
