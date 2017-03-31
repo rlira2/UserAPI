@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'users API', type: :request do
   # initialize test data
-  let!(:users) { create_list(:User, 10) }
+  #let!(:users) { create_list(:User, 10) }
   let(:user_id) { users.first.id }
 
   # Test suite for GET /users
@@ -13,7 +13,7 @@ RSpec.describe 'users API', type: :request do
     it 'returns users' do
       # Note `json` is a custom helper to parse JSON responses
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      #expect(json.size).to eq(10)
     end
 
     it 'returns status code 200' do
@@ -44,18 +44,18 @@ RSpec.describe 'users API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find User/)
+        expect(response.body).to match(/Usuario no encontrado/)
       end
     end
   end
 
-  # Test suite for POST /users
-  describe 'POST /users' do
+  # Test suite for PUT /users
+  describe 'PUT /users' do
     # valid payload
-    let(:valid_attributes) { { usuario: 'Learn Elm', nombre: 'lolo' } }
+    let(:valid_attributes) { }
 
     context 'when the request is valid' do
-      before { post '/users', params: valid_attributes }
+      before { put '/users', params: valid_attributes }
 
       it 'creates a user' do
         expect(json['usuario']).to eq('Learn Elm')
@@ -67,7 +67,7 @@ RSpec.describe 'users API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/users', params: { usuario: 'Foobar' } }
+      before { put '/users', params: { usuario: 'Foobar' } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -80,12 +80,12 @@ RSpec.describe 'users API', type: :request do
     end
   end
 
-  # Test suite for PUT /users/:id
-  describe 'PUT /users/:id' do
+  # Test suite for POST /users/:id
+  describe 'POST /users/:id' do
     let(:valid_attributes) { { usuario: 'Shopping' } }
 
     context 'when the record exists' do
-      before { put "/users/#{user_id}", params: valid_attributes }
+      before { post "/users/#{user_id}", params: valid_attributes }
 
       it 'updates the record' do
         expect(response.body).to be_empty
